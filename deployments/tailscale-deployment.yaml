@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tailscale-hashi-echo
+  labels:
+    app: tailscale-hashi-echo
+spec:
+  selector:
+    matchLabels:
+      app: tailscale
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: tailscale
+    spec:
+      volumes:
+        - name: devnet
+          hostPath:
+            path: /dev/net/tun
+        - name: tailscalekey
+          secret:
+            secretName: tailscalekey
+      containers:
+        - name: tailscale
+          image: zerbitx/tailscale:latest
+          imagePullPolicy: Always
+          securityContext:
+            capabilities:
+              add: [ "NET_ADMIN", "SYS_MODULE" ]
+          volumeMounts:
+            - mountPath: /dev/net/tun
+              name: devnet
+            - mountPath: /tskey
+              name: tailscalekey
+              readOnly: true
+        - name: echo
+          image: hashicorp/http-echo:latest
+          imagePullPolicy: Always
+          args:
+            - "-text"
+            - "Tailscale FTW!"
