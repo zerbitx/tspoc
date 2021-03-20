@@ -1,6 +1,6 @@
-# Tailscale sidecar POC
+# [TailScale](https://tailscale.com)  sidecar POC
 
-### Setup using kind because its so easy:
+### Setup using [kind](https://kind.sigs.k8s.io) because its so easy:
   1) Install [TailScale](https://tailscale.com)
   2) Create the cluster with `kind create cluster`
   3) Install [sealed-secrets/kubeseal](https://github.com/bitnami-labs/sealed-secrets) on the cluster with `kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.15.0/controller.yaml`
