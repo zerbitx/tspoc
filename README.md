@@ -5,7 +5,7 @@
   2) Create the cluster with `kind create cluster`
   3) Install [sealed-secrets/kubeseal](https://github.com/bitnami-labs/sealed-secrets) on the cluster with `kubectl apply -f https://github.com/bitnami-labs/sealed-secrets/releases/download/v0.15.0/controller.yaml`
   4) Get a reusable token from your [Tailscale Admin Console](https://login.tailscale.com/admin/authkeys) and save it to tailscalekey.unsealed (needs to be that name for the deployment)
-  5) Create a sealed secret called `tailscalekey` with `kubectl apply -f  <(kc create secret generic tailscalekey --dry-run=client --from-file=tailscalekey.unsealed -o yaml | kubeseal -o yaml)` 
+  5) Create a sealed secret called `tailscalekey` with `kubectl apply -f  <(kubectl create secret generic tailscalekey --dry-run=client --from-file=tailscalekey.unsealed -o yaml | kubeseal -o yaml)` 
   6) Deploy! `kubectl apply -f deployments/tailscale-deployment.yaml`
      
  `What you should have at this point is a deployment with one pod having 2 containers, one being the hashicorp/http-echo container set to respond on port 5678`
